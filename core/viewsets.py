@@ -9,6 +9,12 @@ class TicketViewSet(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_permissions(self):
+        if self.action in permissions.SAFE_METHODS or self.action == 'create':
+            return [permissions.IsAuthenticated]
+        else:
+            return [permissions.IsAdminUser]
+
     def get_queryset(self):
         user = self.request.User
         
