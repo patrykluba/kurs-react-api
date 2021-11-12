@@ -9,16 +9,10 @@ class TicketViewSet(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_permissions(self):
-        if self.action in permissions.SAFE_METHODS or self.action == 'create':
-            return [permissions.IsAuthenticated]
-        else:
-            return [permissions.IsAdminUser]
-
     def get_queryset(self):
-        user = self.request.User
+        user = self.request.user
         
-        if user.is_superadmin:
+        if user.is_superuser:
             return Ticket.objects.all()
         else:
             return Ticket.objects.filter(author=user)
@@ -31,7 +25,7 @@ class DeviceViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
 
-        if user.is_superadmin:
+        if user.is_superuser:
             return Device.objects.all()
         else:
             return Device.objects.filter(owner=user)

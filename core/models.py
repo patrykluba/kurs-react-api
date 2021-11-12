@@ -24,7 +24,7 @@ class Ticket(models.Model):
 
 class Device(models.Model):
     name = models.CharField(max_length=1000)
-    purchase_date = models.DateTimeField()
+    purchase_date = models.DateField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
